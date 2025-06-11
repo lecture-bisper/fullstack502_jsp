@@ -61,7 +61,7 @@
 			<td colspan="4" align="center">
 			<!-- param : jstl 에서 사용하는 파라미터 객체를 의미 -->
 			<!-- 클릭 이벤트 시 /mvcboard/pass.do 로 이동, 파라미터로 mode, idx 를 전달 -->
-				<button type="button" onclick="location.href='../mvcboard/pass.do?moode=edit&idx=${ param.idx }';">수정하기</button>
+				<button type="button" onclick="location.href='../mvcboard/pass.do?mode=edit&idx=${ param.idx }';">수정하기</button>
 				<button type="button" onclick="location.href='../mvcboard/pass.do?mode=delete&idx=${ param.idx }';">삭제하기</button>
 				<button type="button" onclick="location.href='../mvcboard/list.do';">목록으로</button>
 			</td>
