@@ -121,13 +121,15 @@ public class MVCBoardDAO extends JDBConnect {
 	public int insertWrite(MVCBoardDTO dto) {
 		int result = 0;
 		
-		
 		try {
+//			데이터베이스 insert 쿼리문 생성
 			String sql = "INSERT INTO mvcboard ";
 			sql += "(idx, name, title, content, ofile, sfile, pass) ";
-			sql += "VALUES (seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, ?) ";
+			sql += "VALUES (seq_mvcboard_num.NEXTVAL, ?, ?, ?, ?, ?, ?) ";
 			
+//			prepareStatement 객체 생성
 			pstmt = con.prepareStatement(sql);
+//			? 기호에 맞는 데이터 입력
 			pstmt.setString(1, dto.getName());
 			pstmt.setString(2, dto.getTitle());
 			pstmt.setString(3, dto.getContent());
@@ -135,6 +137,7 @@ public class MVCBoardDAO extends JDBConnect {
 			pstmt.setString(5, dto.getSfile());
 			pstmt.setString(6, dto.getPass());
 			
+//			prepareStatement 를 사용하여 실제 데이터베이스에 쿼리 전달 및 실행
 			result = pstmt.executeUpdate();
 		}
 		catch(Exception e) {
@@ -142,21 +145,28 @@ public class MVCBoardDAO extends JDBConnect {
 			e.printStackTrace();
 		}
 		
+//		데이터베이스 실행 결과값 반환
 		return result;
 	}
 	
-//	게시물 상세보기
+//	게시물 상세보기, 매개변수로 게시물 번호를 받아서 사용
 	public MVCBoardDTO selectView(String idx) {
+//		데이터베이스에서 가져온 게시물 정보를 저장할 DTO 객체 생성
 		MVCBoardDTO board = new MVCBoardDTO();
 		
+//		SQL 쿼리문 생성
 		String sql = "SELECT * FROM mvcboard WHERE idx = ? ";
 		
 		try {
+//			prepareStatement 객체 생성
 			pstmt = con.prepareStatement(sql);
+//			게시물 번호 설정
 			pstmt.setString(1, idx);
+//			데이터베이스에 쿼리문 전달 및 실행, 결과값 가져옴
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
+//				가져온 데이터를 DTO 타입의 객체에 저장
 				board.setIdx(rs.getString("idx"));
 				board.setName(rs.getString("name"));
 				board.setTitle(rs.getString("title"));
@@ -174,6 +184,7 @@ public class MVCBoardDAO extends JDBConnect {
 			e.printStackTrace();
 		}
 		
+//		가져온 데이터를 반환
 		return board;
 	}
 	
