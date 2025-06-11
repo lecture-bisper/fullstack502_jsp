@@ -40,22 +40,22 @@
 			<th width="15%">작성일</th>
 			<th width="8%">첨부</th>
 		</tr>
-		<c:choose>
 		<!-- 가져온 게시물 목록이 비었는지 확인 -->
+		<!-- EL 언어의 forEach 를 사용하여 게시물 목록 수 만큼 반복 실행 -->
+		<!-- 반복 실행 시 boardList 에서 데이터 하나를 가져와서 item 이라는 변수에 저장 -->
+		<!-- 변수 map 은 ListController 에서 전달받은 페이지 정보 -->
+		<c:choose>
 			<c:when test="${ empty boardList }">
 				<tr>
 					<td colspan="6" align="center">등록된 게시물이 없습니다.</td>
 				</tr>
 			</c:when>
 			<c:otherwise>
-			<!-- EL 언어의 forEach 를 사용하여 게시물 목록 수 만큼 반복 실행 -->
-			<!-- 반복 실행 시 boardList 에서 데이터 하나를 가져와서 item 이라는 변수에 저장 -->
 				<c:forEach items="${ boardList }" var="item" varStatus="loop">
 					<tr align="center">
-					<!-- 변수 map 은 ListController 에서 전달받은 페이지 정보 -->
 						<td>${ map.totalCount - (((map.pageNum - 1) * map.pageSize) + loop.index) }</td>
 						<td align="left">
-							<a href="/mvcboard/view.do?idx=${item.idx}">${item.title}</a>
+							<a href="../mvcboard/view.do?idx=${item.idx}">${item.title}</a>
 						</td>
 						<td>${item.name}</td>
 						<td>${item.visitcount}</td>
@@ -76,7 +76,8 @@
 		<!-- 네비게이션 바 내용 출력 -->
 			<td>${map.pagingImg}</td>
 			<td width="100">
-				<button type="button" onclick="location.href='/mvcboard/write.do';">글쓰기</button>
+			<!-- WriteController 서블릿으로 이동 -->
+				<button type="button" onclick="location.href='../mvcboard/write.do';">글쓰기</button>
 			</td>
 		</tr>
 	</table>
