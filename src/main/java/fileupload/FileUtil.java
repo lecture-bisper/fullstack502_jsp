@@ -107,7 +107,29 @@ public class FileUtil {
 		return newFileName;
 	}
 	
+	public static void deleteFile(HttpServletRequest req, String dir, String fileName) {
+		
+//		저장된 파일이 위치한 디스크의 실제 경로를 가져옴
+		String saveDir = req.getServletContext().getRealPath(dir);
+//		실제 파일 경로를 바탕으로 File 객체 생성
+		File file = new File(saveDir + File.separator + fileName);
+		
+//		실제 파일이 있는지 확인
+		if (file.exists()) {
+//			파일 삭제
+			file.delete();
+		}
+	}
+	
 }
+
+
+
+
+
+
+
+
 
 
 
