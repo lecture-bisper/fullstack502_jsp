@@ -189,14 +189,93 @@ public class MVCBoardDAO extends JDBConnect {
 	}
 	
 //	게시물 수정
+	public int updatePost(MVCBoardDTO board) {
+		int result = 0;
+		
+		try {
+			String sql = "UPDATE mvcboard ";
+			sql += "SET title = ?, name = ?, content = ?, ofile = ?, sfile = ? ";
+			sql += "WHERE idx = ? AND pass = ? ";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, board.getTitle());
+			pstmt.setString(2, board.getName());
+			pstmt.setString(3, board.getContent());
+			pstmt.setString(4, board.getOfile());
+			pstmt.setString(5, board.getSfile());
+			pstmt.setString(6, board.getIdx());
+			pstmt.setString(7, board.getPass());
+			
+			result = pstmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println("게시물 수정 중 오류가 발생했습니다.");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 //	게시물 삭제
+	public int deletePost(String idx) {
+		
+//		결과값을 저장할 변수
+		int result = 0;
+		
+		try {
+//			게시물 삭제 쿼리 생성
+			String sql = "DELETE FROM mvcboard WHERE idx = ? ";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idx);
+//			데이터베이스에 쿼리문 전달 및 실행
+			result = pstmt.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println("게시물 삭제 중 오류가 발생했습니다.");
+			e.printStackTrace();
+		}
+		
+//		결과값 반환
+		return result;
+	}
 	
 //	게시물 뷰 카운트 증가
 	
 //	다운로드 수 카운트 증가
 	
 //	비밀번호 확인
+	public boolean confirmPassword(String pass, String idx) {
+//		결과를 저장할 변수 선언
+		boolean result = false;
+		
+		try {
+//			사용자가 입력한 비밀번호와 게시글 번호가 일치는 게시물이 있는지 조회하는 쿼리문 생성
+			String sql = "SELECT COUNT(*) AS cnt FROM mvcboard ";
+			sql += "WHERE pass = ? AND idx = ? ";
+			
+			pstmt = con.prepareStatement(sql);
+//			? 에 게시물번호, 비밀번호 입력
+			pstmt.setString(1, pass);
+			pstmt.setString(2, idx);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+//			조회한 결과값이 1 인지 확인
+			if (rs.getInt("cnt") == 1) {
+//				결과값이 1 이면 변수 result 의 값을 true 로 수정
+				result = true;
+			}
+		}
+		catch (Exception e) {
+			System.out.println("비밀번호가 다릅니다.");
+			e.printStackTrace();
+		}
+		
+//		결과값을 저장한 변수 result 반환
+		return result;
+	}
 
 }
 
